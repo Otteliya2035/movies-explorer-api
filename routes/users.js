@@ -2,9 +2,9 @@ const express = require('express');
 
 const router = express.Router();
 const userController = require('../controllers/users');
+const { updateUserInfoValidator } = require('../middlewares/validations');
 
-// Роуты для пользователя
 router.get('/me', userController.getCurrentUser);
-router.patch('/me', userController.updateUserInfo);
+router.patch('/me', updateUserInfoValidator, userController.updateUserInfo);
 
 module.exports = router;

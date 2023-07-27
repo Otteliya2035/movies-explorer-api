@@ -4,6 +4,7 @@ const User = require('../models/user');
 const BadRequestError = require('../errors/BadRequestError');
 const NotFoundError = require('../errors/NotFoundError');
 const ConflictError = require('../errors/ConflictError');
+const { messages } = require('../utils/constants');
 
 const { NODE_ENV, SECRET_DEV_KEY } = require('../utils/constants');
 
@@ -32,12 +33,12 @@ const createUser = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new BadRequestError('Переданы некорректные данные'));
+        next(new BadRequestError(messages.INCORRECT_DATA));
         return;
       }
 
       if (err.code === 11000) {
-        next(new ConflictError('Пользователь с таким email уже существует'));
+        next(new ConflictError(messages.users.EMAIL_EXIST));
         return;
       }
 
@@ -65,7 +66,7 @@ const getCurrentUser = (req, res, next) => {
   User.findById(userId)
     .then((user) => {
       if (!user) {
-        const error = new NotFoundError('Пользователь не найден');
+        const error = new NotFoundError(messages.users.NOT_FOUND);
         next(error);
         return;
       }
@@ -87,7 +88,7 @@ const updateUserInfo = (req, res, next) => {
   )
     .then((user) => {
       if (!user) {
-        const error = new NotFoundError('Пользователь не найден');
+        const error = new NotFoundError(messages.users.NOT_FOUND);
         next(error);
         return;
       }
@@ -95,7 +96,7 @@ const updateUserInfo = (req, res, next) => {
     })
     .catch((error) => {
       if (error.name === 'ValidationError') {
-        next(new BadRequestError('Переданы некорректные данные'));
+        next(new BadRequestError(messages.INCORRECT_DATA));
         return;
       }
       next(error);

@@ -7,13 +7,14 @@ const signupRoutes = require('./signup');
 const movieRoutes = require('./movies');
 const auth = require('../middlewares/auth');
 const NotFoundError = require('../errors/NotFoundError');
+const { messages } = require('../utils/constants');
 
 const app = express();
 
 // Роут с краштестом
 app.get('/crash-test', () => {
   setTimeout(() => {
-    throw new Error('Сервер сейчас упадёт');
+    throw new Error(messages.SHUT_DOWN);
   }, 0);
 });
 
@@ -23,7 +24,7 @@ router.use('/users', auth, userRoutes);
 router.use('/movie', auth, movieRoutes);
 
 router.use('*', () => {
-  throw new NotFoundError('not found');
+  throw new NotFoundError(messages.NOT_FOUND);
 });
 
 module.exports = router;

@@ -1,4 +1,5 @@
 const rateLimiter = require('express-rate-limit');
+const { messages } = require('../utils/constants');
 
 // Ограничитель запросов
 const limiter = rateLimiter({
@@ -6,8 +7,7 @@ const limiter = rateLimiter({
 
   windowMS: 15 * 60 * 1000, // Продолжительность периода в миллисекундах
 
-  message:
-    'Превышено количество запросов на сервер. Попробуйте повторить немного позже',
+  message: messages.rate_limiter.LIMIT_EXPIRED,
 });
 
 module.exports = limiter; // Экспортируем ограничитель запросов
