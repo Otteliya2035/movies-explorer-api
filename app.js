@@ -23,7 +23,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(requestLogger);
 
-app.use('/', routes);
+app.use('/api', routes);
 app.use(errorLogger);
 app.use(errors()); // Обработчик ошибок от celebrate
 app.use(errorHandler);
